@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DarshanEase — Temple Darshan Ticket Booking</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Tiro+Devanagari+Hindi:ital@0;1&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --saffron: #E8891A;
+  --deep: #B85C00;
+  --gold: #F5C518;
+  --maroon: #7B1414;
+  --cream: #FDF6E3;
+  --dark: #1A0A00;
+  --text: #2C1A0E;
+  --muted: #7A5C3A;
+  --white: #FFFFFF;
+  --card-bg: #FFFDF7;
+  --shadow: 0 8px 40px rgba(120,60,0,0.12);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--saffron); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw;
+  height: 68px;
+  background: rgba(26,10,0,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(232,137,26,0.2);
+}
+.nav-logo {
+  font-family: 'Yatra One', cursive;
+  font-size: 1.5rem;
+  color: var(--gold);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo span { font-size: 1.6rem; }
+.nav-links { display: flex; align-items: center; gap: 6px; }
+.nav-links a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+.nav-links a:hover { color: white; background: rgba(232,137,26,0.2); }
+.nav-btn {
+  background: var(--saffron) !important;
+  color: white !important;
+  border-radius: 50px !important;
+  padding: 7px 20px !important;
+}
+.nav-btn:hover { background: var(--deep) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #1A0A00 0%, #3D1500 40%, #6B2A00 70%, #8B3A00 100%);
+  padding: 100px 5vw 60px;
+}
+.hero-pattern {
+  position: absolute; inset: 0; opacity: 0.07;
+  background-image:
+    radial-gradient(circle at 25% 25%, var(--gold) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, var(--gold) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-glow {
+  position: absolute;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(232,137,26,0.18) 0%, transparent 70%);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  max-width: 820px;
+  animation: heroIn 1s ease both;
+}
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-label {
+  display: inline-block;
+  background: rgba(232,137,26,0.18);
+  border: 1px solid rgba(232,137,26,0.4);
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 6px 18px;
+  border-radius: 50px;
+  margin-bottom: 22px;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Yatra One', cursive;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.hero h1 em {
+  color: var(--gold);
+  font-style: normal;
+  text-shadow: 0 0 40px rgba(245,197,24,0.5);
+}
+.hero-sub {
+  font-family: 'Tiro Devanagari Hindi', serif;
+  color: rgba(255,255,255,0.55);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+.hero p {
+  font-size: 1.08rem;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.75;
+  max-width: 620px;
+  margin: 0 auto 36px;
+}
+
+/* Search Box */
+.search-box {
+  background: white;
+  border-radius: 16px;
+  padding: 8px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  max-width: 680px;
+  margin: 0 auto 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.search-field {
+  flex: 1; min-width: 140px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: #FFF9F0;
+  border-radius: 10px;
+}
+.search-field .s-icon { font-size: 1.1rem; flex-shrink: 0; }
+.search-field select, .search-field input {
+  border: none; background: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.88rem; color: var(--text);
+  width: 100%; outline: none;
+  font-weight: 600;
+}
+.search-field select option { background: white; }
+.search-btn {
+  background: linear-gradient(135deg, var(--saffron), var(--deep));
+  color: white; border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.search-btn:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(184,92,0,0.4); }
+
+.hero-stats {
+  display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+  margin-top: 10px;
+}
+.hero-stat { text-align: center; }
+.hero-stat .num { font-family: 'Yatra One', cursive; font-size: 1.8rem; color: var(--gold); }
+.hero-stat .lbl { font-size: 0.75rem; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* ── SECTION COMMON ── */
+section { padding: 80px 5vw; }
+.section-label {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--saffron);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::before { content: ''; width: 30px; height: 2px; background: var(--saffron); }
+.section-title {
+  font-family: 'Yatra One', cursive;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.section-desc { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 500px; }
+
+/* ── HOW IT WORKS ── */
+.how-section { background: white; }
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px; margin-top: 50px;
+}
+.how-card {
+  text-align: center; padding: 36px 24px;
+  border-radius: 20px;
+  background: var(--cream);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: fadeUp 0.6s ease both;
+}
+.how-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+.how-card .step-num {
+  position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+  width: 34px; height: 34px;
+  background: var(--saffron); color: white;
+  border-radius: 50%;
+  font-weight: 800; font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(232,137,26,0.4);
+}
+.how-card .icon { font-size: 2.4rem; margin-bottom: 14px; }
+.how-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+.how-card p { font-size: 0.86rem; color: var(--muted); line-height: 1.6; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── TEMPLES ── */
+.temples-section { background: var(--cream); }
+.temples-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 40px; }
+.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-tab {
+  padding: 7px 18px;
+  border-radius: 50px;
+  border: 2px solid #E0D0B0;
+  background: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-tab.active, .filter-tab:hover {
+  background: var(--saffron); border-color: var(--saffron); color: white;
+}
+.temples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+.temple-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(120,60,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.temple-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(120,60,0,0.16); }
+.temple-img {
+  height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  position: relative; overflow: hidden;
+}
+.temple-img .overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.5));
+}
+.temple-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(0,0,0,0.6);
+  color: var(--gold);
+  font-size: 0.72rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 50px;
+  letter-spacing: 0.05em;
+}
+.temple-body { padding: 18px 20px 20px; }
+.temple-name { font-family: 'Yatra One', cursive; font-size: 1.15rem; color: var(--text); margin-bottom: 4px; }
+.temple-loc { font-size: 0.82rem; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 4px; }
+.temple-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.tag {
+  background: #FFF0DC; color: #8B4500;
+  font-size: 0.72rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 50px;
+  letter-spacing: 0.04em;
+}
+.temple-footer { display: flex; align-items: center; justify-content: space-between; }
+.slot-info { font-size: 0.82rem; color: var(--muted); }
+.slot-info strong { color: var(--saffron); font-size: 1rem; }
+.book-btn {
+  background: linear-gradient(135deg, var(--saffron), var(--deep));
+  color: white; border: none;
+  padding: 9px 20px;
+  border-radius: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.book-btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px rgba(184,92,0,0.35); }
+
+/* ── BOOKING MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: white; border-radius: 24px;
+  max-width: 520px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  padding: 32px;
+  transform: translateY(30px) scale(0.97);
+  transition: transform 0.3s;
+  position: relative;
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  background: #F5F0E8; border: none;
+  width: 34px; height: 34px; border-radius: 50%;
+  font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.modal-close:hover { background: var(--saffron); color: white; }
+.modal-temple-name {
+  font-family: 'Yatra One', cursive;
+  font-size: 1.6rem; color: var(--text);
+  margin-bottom: 4px;
+}
+.modal-loc { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 0.8rem; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.form-group input, .form-group select {
+  width: 100%; padding: 11px 14px;
+  border: 2px solid #EDE0C8;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem; color: var(--text);
+  background: #FFFDF7;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--saffron); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.slot-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 6px; }
+.slot-opt {
+  padding: 10px 6px; border: 2px solid #EDE0C8;
+  border-radius: 10px; text-align: center; cursor: pointer;
+  transition: all 0.2s;
+  background: #FFFDF7;
+}
+.slot-opt:hover { border-color: var(--saffron); }
+.slot-opt.selected { border-color: var(--saffron); background: #FFF4E0; }
+.slot-opt .time { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+.slot-opt .avail { font-size: 0.7rem; color: var(--muted); }
+.slot-opt.full { opacity: 0.4; cursor: not-allowed; }
+.price-summary {
+  background: #FFF8EE; border-radius: 12px;
+  padding: 16px; margin: 20px 0;
+  border: 1px solid #FFDCA0;
+}
+.price-row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 4px 0; }
+.price-row.total { font-weight: 800; font-size: 1rem; border-top: 1px solid #FFDCA0; padding-top: 10px; margin-top: 6px; color: var(--maroon); }
+.confirm-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--saffron), var(--deep));
+  color: white; border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem; font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.confirm-btn:hover { transform: scale(1.02); box-shadow: 0 8px 28px rgba(184,92,0,0.4); }
+
+/* ── SUCCESS ── */
+.success-screen { text-align: center; padding: 10px 0; }
+.success-icon { font-size: 4rem; margin-bottom: 16px; animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+.success-screen h2 { font-family: 'Yatra One', cursive; font-size: 1.8rem; color: var(--text); margin-bottom: 8px; }
+.success-screen p { color: var(--muted); font-size: 0.92rem; margin-bottom: 20px; }
+.booking-id {
+  background: #FFF4E0; border-radius: 10px;
+  padding: 12px 20px; margin: 0 auto 20px;
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--saffron);
+  letter-spacing: 0.1em;
+}
+.done-btn {
+  background: var(--saffron); color: white; border: none;
+  padding: 12px 36px; border-radius: 50px;
+  font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+}
+.done-btn:hover { background: var(--deep); }
+
+/* ── FEATURES BANNER ── */
+.features-section { background: linear-gradient(135deg, var(--maroon) 0%, #5C0F0F 100%); }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px; margin-top: 50px;
+}
+.feature-item { text-align: center; }
+.feature-item .f-icon {
+  width: 64px; height: 64px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 18px; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s;
+}
+.feature-item:hover .f-icon {
+  background: rgba(232,137,26,0.25);
+  border-color: var(--saffron);
+  transform: scale(1.1);
+}
+.feature-item h3 { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.feature-item p { color: rgba(255,255,255,0.55); font-size: 0.84rem; line-height: 1.6; }
+.features-section .section-title { color: white; }
+.features-section .section-label { color: var(--gold); }
+.features-section .section-label::before { background: var(--gold); }
+
+/* ── TESTIMONIALS ── */
+.testi-section { background: white; }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 48px; }
+.testi-card {
+  background: var(--cream);
+  border-radius: 20px; padding: 28px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.testi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.testi-card .quote { font-size: 2.5rem; color: var(--saffron); line-height: 1; margin-bottom: 12px; }
+.testi-card p { font-size: 0.9rem; color: var(--text); line-height: 1.7; font-style: italic; margin-bottom: 20px; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--saffron), var(--deep));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+.testi-author .name { font-weight: 700; font-size: 0.9rem; }
+.testi-author .role { font-size: 0.76rem; color: var(--muted); }
+.stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 14px; }
+
+/* ── CTA ── */
+.cta-section {
+  background: linear-gradient(135deg, #1A0A00, #3D1500);
+  text-align: center; padding: 100px 5vw;
+}
+.cta-section h2 {
+  font-family: 'Yatra One', cursive;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  color: white; margin-bottom: 14px;
+}
+.cta-section h2 em { color: var(--gold); font-style: normal; }
+.cta-section p { color: rgba(255,255,255,0.6); margin-bottom: 32px; font-size: 1rem; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--saffron), var(--deep));
+  color: white; border: none;
+  padding: 14px 36px; border-radius: 50px;
+  font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.btn-primary:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(184,92,0,0.5); }
+.btn-outline {
+  background: transparent;
+  color: white; border: 2px solid rgba(255,255,255,0.3);
+  padding: 14px 36px; border-radius: 50px;
+  font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark);
+  padding: 50px 5vw 30px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 40px; margin-bottom: 40px; }
+.footer-brand .logo { font-family: 'Yatra One', cursive; font-size: 1.6rem; color: var(--gold); margin-bottom: 10px; }
+.footer-brand p { color: rgba(255,255,255,0.4); font-size: 0.84rem; line-height: 1.7; max-width: 240px; }
+.footer-col h4 { color: white; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+.footer-col ul li a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 24px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  color: rgba(255,255,255,0.3); font-size: 0.8rem;
+}
+.footer-bottom span { color: var(--saffron); }
+
+/* ── AUTH MODAL ── */
+.auth-overlay {
+  position: fixed; inset: 0; z-index: 3000;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.auth-overlay.open { opacity: 1; pointer-events: all; }
+.auth-modal {
+  background: white; border-radius: 24px;
+  max-width: 420px; width: 100%; padding: 36px;
+  transform: scale(0.95); transition: transform 0.3s;
+  position: relative;
+}
+.auth-overlay.open .auth-modal { transform: scale(1); }
+.auth-tabs { display: flex; gap: 0; margin-bottom: 28px; background: #F5F0E8; border-radius: 10px; padding: 4px; }
+.auth-tab {
+  flex: 1; padding: 9px; border: none; background: transparent;
+  font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700;
+  color: var(--muted); border-radius: 8px; cursor: pointer; transition: all 0.2s;
+}
+.auth-tab.active { background: white; color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.auth-form { display: none; }
+.auth-form.active { display: block; }
+.auth-title { font-family: 'Yatra One', cursive; font-size: 1.6rem; color: var(--text); margin-bottom: 6px; }
+.auth-subtitle { font-size: 0.85rem; color: var(--muted); margin-bottom: 22px; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+  background: var(--dark); color: white;
+  padding: 14px 22px; border-radius: 12px;
+  font-size: 0.9rem; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  transform: translateY(20px); opacity: 0;
+  transition: all 0.3s;
+  max-width: 320px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { border-left: 4px solid #4CAF50; }
+.toast.error { border-left: 4px solid #F44336; }
+.toast.info { border-left: 4px solid var(--saffron); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .slot-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><span>🛕</span> DarshanEase</a>
+  <div class="nav-links">
+    <a href="#temples">Temples</a>
+    <a href="#how">How it Works</a>
+    <a href="#features">Features</a>
+    <a href="#" onclick="openAuth()">Login</a>
+    <a href="#" class="nav-btn" onclick="openAuth()">Book Now</a>
+  </div>
+  <div class="hamburger" onclick="openAuth()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-label">✦ Online Darshan Booking Platform</div>
+    <h1>Book Your <em>Sacred</em><br>Darshan Online</h1>
+    <p class="hero-sub">दर्शन की सुविधा, आपके घर से</p>
+    <p>Skip the queues. Choose your time. Experience divine blessings from the comfort of your home — book darshan slots at India's most revered temples in seconds.</p>
+
+    <div class="search-box">
+      <div class="search-field">
+        <span class="s-icon">🛕</span>
+        <select id="templeSelect">
+          <option value="">Select Temple</option>
+          <option>Tirupati Balaji</option>
+          <option>Kashi Vishwanath</option>
+          <option>Vaishno Devi</option>
+          <option>Somnath</option>
+          <option>Shirdi Sai Baba</option>
+          <option>Jagannath Puri</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <span class="s-icon">📅</span>
+        <input type="date" id="dateSelect" placeholder="Select Date">
+      </div>
+      <div class="search-field">
+        <span class="s-icon">🙏</span>
+        <select id="poojaSelect">
+          <option value="">Pooja Type</option>
+          <option>General Darshan</option>
+          <option>VIP Darshan</option>
+          <option>Abhishekam</option>
+          <option>Prasad Booking</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="handleSearch()">🔍 Search Slots</button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">500+</div><div class="lbl">Temples</div></div>
+      <div class="hero-stat"><div class="num">2M+</div><div class="lbl">Devotees</div></div>
+      <div class="hero-stat"><div class="num">50+</div><div class="lbl">Cities</div></div>
+      <div class="hero-stat"><div class="num">4.9★</div><div class="lbl">Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-label">Simple Process</div>
+  <div class="section-title">Book Darshan in 4 Easy Steps</div>
+  <div class="section-desc">From selection to confirmation — the entire process takes under 2 minutes.</div>
+  <div class="how-grid">
+    <div class="how-card" style="animation-delay:0.1s">
+      <div class="step-num">1</div>
+      <div class="icon">🔍</div>
+      <h3>Find Your Temple</h3>
+      <p>Browse from 500+ temples across India. Filter by location, deity, or pooja type.</p>
+    </div>
+    <div class="how-card" style="animation-delay:0.2s">
+      <div class="step-num">2</div>
+      <div class="icon">📅</div>
+      <h3>Pick a Slot</h3>
+      <p>View real-time available darshan slots and choose a date and time that suits you.</p>
+    </div>
+    <div class="how-card" style="animation-delay:0.3s">
+      <div class="step-num">3</div>
+      <div class="icon">✍️</div>
+      <h3>Fill Details</h3>
+      <p>Enter devotee information, number of tickets, and select your preferred pooja type.</p>
+    </div>
+    <div class="how-card" style="animation-delay:0.4s">
+      <div class="step-num">4</div>
+      <div class="icon">🎟️</div>
+      <h3>Confirm & Go</h3>
+      <p>Receive your booking confirmation instantly. Show your e-ticket at the temple.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLES -->
+<section class="temples-section" id="temples">
+  <div class="temples-header">
+    <div>
+      <div class="section-label">Explore</div>
+      <div class="section-title">Popular Temples</div>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterTemples('All', this)">All</button>
+      <button class="filter-tab" onclick="filterTemples('North India', this)">North India</button>
+      <button class="filter-tab" onclick="filterTemples('South India', this)">South India</button>
+      <button class="filter-tab" onclick="filterTemples('West India', this)">West India</button>
+    </div>
+  </div>
+  <div class="temples-grid" id="templesGrid"></div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-label">Why Choose Us</div>
+  <div class="section-title">Everything for Your<br>Spiritual Journey</div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="f-icon">⚡</div>
+      <h3>Instant Booking</h3>
+      <p>Confirm your darshan slot in seconds with real-time seat availability.</p>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">🔐</div>
+      <h3>Secure Payments</h3>
+      <p>Safe and encrypted transactions with multiple payment options.</p>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">🎟️</div>
+      <h3>E-Tickets</h3>
+      <p>Download your QR-coded e-ticket instantly after booking confirmation.</p>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">🔔</div>
+      <h3>Smart Reminders</h3>
+      <p>Get timely notifications and reminders before your darshan visit.</p>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">❌</div>
+      <h3>Easy Cancellation</h3>
+      <p>Cancel or reschedule bookings easily through your dashboard.</p>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">💛</div>
+      <h3>Temple Donations</h3>
+      <p>Contribute to temple funds and prasad donations with a single tap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="section-label">Devotee Stories</div>
+  <div class="section-title">What Devotees Say</div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <div class="quote">"</div>
+      <p>DarshanEase completely transformed my Tirupati visit. No more waiting in serpentine queues for hours. I booked a slot two days in advance and walked right in!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨</div>
+        <div><div class="name">Ramesh Sharma</div><div class="role">Hyderabad</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <div class="quote">"</div>
+      <p>As a family with elderly parents, booking darshan online was a blessing. The VIP darshan option was exactly what we needed for a comfortable spiritual experience.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div><div class="name">Priya Iyer</div><div class="role">Chennai</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <div class="quote">"</div>
+      <p>The e-ticket system is seamless. I love how I can plan my entire pilgrimage — multiple temples, multiple days — all from this one platform. Absolutely recommended!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">🧔</div>
+        <div><div class="name">Vikram Patel</div><div class="role">Ahmedabad</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Begin Your <em>Sacred</em> Journey Today</h2>
+  <p>Join over 2 million devotees who plan their darshan with ease and peace of mind.</p>
+  <div class="cta-btns">
+    <a href="#temples" class="btn-primary">🛕 Explore Temples</a>
+    <a href="#" class="btn-outline" onclick="openAuth()">Create Free Account</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">🛕 DarshanEase</div>
+      <p>Your trusted companion for seamless temple darshan booking across India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#temples">All Temples</a></li>
+        <li><a href="#">Popular Pilgrimages</a></li>
+        <li><a href="#">Pooja Types</a></li>
+        <li><a href="#">Temple Calendar</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Account</h4>
+      <ul>
+        <li><a href="#" onclick="openAuth()">Register</a></li>
+        <li><a href="#" onclick="openAuth()">Login</a></li>
+        <li><a href="#">My Bookings</a></li>
+        <li><a href="#">Donations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 <span>DarshanEase</span>. All rights reserved.</div>
+    <div>Made with 🙏 for devotees across India</div>
+  </div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authModal">
+  <div class="auth-modal">
+    <button class="modal-close" onclick="closeAuth()" style="position:absolute;top:16px;right:20px;">✕</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuth('login', this)">Login</button>
+      <button class="auth-tab" onclick="switchAuth('register', this)">Register</button>
+    </div>
+
+    <div class="auth-form active" id="loginForm">
+      <div class="auth-title">Welcome Back 🙏</div>
+      <div class="auth-subtitle">Login to manage your darshan bookings</div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" placeholder="Enter password">
+      </div>
+      <button class="confirm-btn" onclick="handleLogin()" style="margin-top:8px;">Login to DarshanEase</button>
+    </div>
+
+    <div class="auth-form" id="registerForm">
+      <div class="auth-title">Join DarshanEase 🛕</div>
+      <div class="auth-subtitle">Create your free account today</div>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Ramesh"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="Create strong password"></div>
+      <button class="confirm-btn" onclick="handleRegister()" style="margin-top:8px;">Create Free Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const temples = [
+  { id:1, name:"Tirupati Balaji", loc:"Tirupati, Andhra Pradesh", emoji:"⛩️", bg:"#FFF3E0", region:"South India", tags:["Vishnu","VIP Darshan","Prasad"], slots:12, price:50 },
+  { id:2, name:"Kashi Vishwanath", loc:"Varanasi, Uttar Pradesh", emoji:"🕌", bg:"#FFF8E1", region:"North India", tags:["Shiva","Abhishekam","Aarti"], slots:8, price:30 },
+  { id:3, name:"Vaishno Devi", loc:"Katra, Jammu & Kashmir", emoji:"🏔️", bg:"#F3E5F5", region:"North India", tags:["Devi","Yatra","Helicopter"], slots:15, price:100 },
+  { id:4, name:"Somnath", loc:"Gir Somnath, Gujarat", emoji:"🌊", bg:"#E3F2FD", region:"West India", tags:["Shiva","Jyotirlinga","Aarti"], slots:6, price:20 },
+  { id:5, name:"Shirdi Sai Baba", loc:"Shirdi, Maharashtra", emoji:"🙏", bg:"#F1F8E9", region:"West India", tags:["Sai Baba","Prasad","Aarti"], slots:20, price:0 },
+  { id:6, name:"Jagannath Puri", loc:"Puri, Odisha", emoji:"🎪", bg:"#FFF9C4", region:"North India", tags:["Vishnu","Mahaprasad","Rath Yatra"], slots:10, price:0 },
+];
+
+const slotTimes = ["6:00 AM","8:00 AM","10:00 AM","12:00 PM","2:00 PM","4:00 PM","6:00 PM","8:00 PM"];
+let activeFilter = "All";
+let selectedSlot = null;
+let currentTemple = null;
+
+function renderTemples(filter) {
+  const grid = document.getElementById('templesGrid');
+  const filtered = filter === 'All' ? temples : temples.filter(t => t.region === filter);
+  grid.innerHTML = filtered.map(t => `
+    <div class="temple-card" onclick="openBooking(${t.id})">
+      <div class="temple-img" style="background:${t.bg};">
+        <span>${t.emoji}</span>
+        <div class="overlay"></div>
+        <div class="temple-badge">${t.region}</div>
+      </div>
+      <div class="temple-body">
+        <div class="temple-name">${t.name}</div>
+        <div class="temple-loc">📍 ${t.loc}</div>
+        <div class="temple-meta">${t.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+        <div class="temple-footer">
+          <div class="slot-info"><strong>${t.slots}</strong> slots available today</div>
+          <button class="book-btn" onclick="event.stopPropagation(); openBooking(${t.id})">Book Darshan →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterTemples(filter, btn) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTemples(filter);
+}
+
+function openBooking(id) {
+  currentTemple = temples.find(t => t.id === id);
+  selectedSlot = null;
+  const availSlots = slotTimes.slice(0, currentTemple.slots > slotTimes.length ? slotTimes.length : currentTemple.slots);
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-temple-name">🛕 ${currentTemple.name}</div>
+    <div class="modal-loc">📍 ${currentTemple.loc}</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Select Date</label>
+        <input type="date" id="bDate" min="${today}" value="${today}">
+      </div>
+      <div class="form-group">
+        <label>Pooja Type</label>
+        <select id="bPooja">
+          <option>General Darshan</option>
+          <option>VIP Darshan</option>
+          <option>Abhishekam</option>
+          <option>Prasad Booking</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Devotee Name</label>
+      <input type="text" id="bName" placeholder="Full name of devotee">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="bPhone" placeholder="+91 XXXXX XXXXX">
+      </div>
+      <div class="form-group">
+        <label>Number of Tickets</label>
+        <input type="number" id="bTickets" min="1" max="6" value="1" onchange="updatePrice()">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Available Time Slots</label>
+      <div class="slot-grid">
+        ${availSlots.map((s,i) => `
+          <div class="slot-opt ${i===0?'selected':''}" onclick="selectSlot(this,'${s}')">
+            <div class="time">${s}</div>
+            <div class="avail">${Math.floor(Math.random()*20)+5} seats</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="price-summary" id="priceSummary">
+      <div class="price-row"><span>Darshan Ticket (1×)</span><span>₹${currentTemple.price || 'Free'}</span></div>
+      <div class="price-row"><span>Convenience Fee</span><span>₹5</span></div>
+      <div class="price-row total"><span>Total Payable</span><span id="totalAmt">₹${currentTemple.price + 5}</span></div>
+    </div>
+
+    <button class="confirm-btn" onclick="confirmBooking()">✓ Confirm Darshan Booking</button>
+  `;
+  selectedSlot = availSlots[0];
+  document.getElementById('bookingModal').classList.add('open');
+}
+
+function selectSlot(el, time) {
+  document.querySelectorAll('.slot-opt').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSlot = time;
+}
+
+function updatePrice() {
+  const tickets = parseInt(document.getElementById('bTickets').value) || 1;
+  const total = (currentTemple.price * tickets) + 5;
+  document.getElementById('priceSummary').querySelector('div:first-child span:first-child').textContent = `Darshan Ticket (${tickets}×)`;
+  document.getElementById('priceSummary').querySelector('div:first-child span:last-child').textContent = `₹${currentTemple.price * tickets || 'Free'}`;
+  document.getElementById('totalAmt').textContent = `₹${total}`;
+}
+
+function confirmBooking() {
+  const name = document.getElementById('bName').value.trim();
+  const phone = document.getElementById('bPhone').value.trim();
+  if (!name) { showToast('Please enter devotee name', 'error'); return; }
+  if (!phone) { showToast('Please enter phone number', 'error'); return; }
+  const bookingId = 'DE' + Date.now().toString(36).toUpperCase().slice(-6);
+  const date = document.getElementById('bDate').value;
+  const pooja = document.getElementById('bPooja').value;
+  const tickets = document.getElementById('bTickets').value;
+  document.getElementById('modalContent').innerHTML = `
+    <div class="success-screen">
+      <div class="success-icon">✅</div>
+      <h2>Darshan Booked!</h2>
+      <p>Your darshan slot at <strong>${currentTemple.name}</strong> is confirmed.<br>${pooja} · ${date} · ${selectedSlot} · ${tickets} ticket(s)</p>
+      <div class="booking-id">${bookingId}</div>
+      <p style="font-size:0.8rem;color:#aaa;margin-bottom:20px;">Save this booking ID. Show it at the temple entrance.</p>
+      <button class="done-btn" onclick="closeModal()">Done 🙏</button>
+    </div>
+  `;
+  showToast('Booking confirmed! 🙏 Jai Shree Ram', 'success');
+}
+
+function closeModal() {
+  document.getElementById('bookingModal').classList.remove('open');
+}
+
+function openAuth() {
+  document.getElementById('authModal').classList.add('open');
+}
+function closeAuth() {
+  document.getElementById('authModal').classList.remove('open');
+}
+function switchAuth(tab, btn) {
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tab + 'Form').classList.add('active');
+}
+function handleLogin() {
+  showToast('Login successful! Welcome back 🙏', 'success');
+  closeAuth();
+}
+function handleRegister() {
+  showToast('Account created! Welcome to DarshanEase 🛕', 'success');
+  closeAuth();
+}
+
+function handleSearch() {
+  const temple = document.getElementById('templeSelect').value;
+  const date = document.getElementById('dateSelect').value;
+  if (!temple && !date) { showToast('Please select a temple or date to search', 'info'); return; }
+  document.getElementById('temples').scrollIntoView({ behavior: 'smooth' });
+  showToast(`Showing available slots${temple ? ' for ' + temple : ''}`, 'info');
+}
+
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  const icons = { success: '✅', error: '❌', info: '🔔' };
+  t.innerHTML = `${icons[type]} ${msg}`;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Set today's date in hero
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('dateSelect').value = today;
+  renderTemples('All');
+});
+
+// Close modals on overlay click
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('authModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAuth();
+});
+</script>
+</body>
+</html>
